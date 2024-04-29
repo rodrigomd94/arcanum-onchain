@@ -39,12 +39,22 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
     const [walletAddress, setWalletAddress] = useState<string>("");
     //const { logout: web3authLogout, web3AuthAPI, walletAddress, login: web3auth!.fullLogin, loggedIn, getAccounts, getBalance, isLoading } = useWeb3Auth();
 
+    const initializeLucid = async () => {
+        const lucid = await Lucid.new(new Blockfrost(process.env.NEXT_PUBLIC_BLOCKFROST_URL as string, process.env.NEXT_PUBLIC_BLOCKFROST_PROJECT_ID as string));
+        setLucid(lucid);
+        return lucid;
+    }
+
+    useEffect(()=>{
+        initializeLucid();
+    },[])
+
     const connectWallet = async (walletName: string) => {
         console.log("connecting wallet")
         setWalletName(walletName);
         const walletApi = await window.cardano[walletName].enable();
         setWalletApi(walletApi);
-        Lucid.new(new Blockfrost(process.env.NEXT_PUBLIC_BLOCKFROST_URL as string, process.env.NEXT_PUBLIC_BLOCKFROST_PROJECT_ID as string)).then(async (lucid) => {
+        initializeLucid().then(async (lucid) => {
             lucid.selectWallet(walletApi);
             const address = await lucid.wallet.address();
           // const address = "addr1q8y4ldg2e5nuyst5ty4gdp8e62fgkgv7cc73qd7f0f4e4m42djal9l8tpqzqwquae69t2dyjdzss7mxmrmnwv7mthd4s837f5f"
