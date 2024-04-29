@@ -89,6 +89,9 @@ export default function Home() {
   return (
     <div className="container">
       <Navbar />
+      <div className="w-full text-center my-2">
+        <h1 className="text-xl" >Books you can take</h1>
+      </div>
       <div className="flex flex-row gap-2">
         <Input placeholder="Search for books" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
         <Button onClick={onSearch}>Search</Button>

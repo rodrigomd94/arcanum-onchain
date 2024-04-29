@@ -18,7 +18,7 @@ export default function Home() {
   const { userBooks, findBooks } = useBookContext();
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [filteredBooks, setFilteredBooks] = useState(userBooks);
-
+  const { connected } = useWalletContext();
   const onSearch = async () => {
     setFilteredBooks(await findBooks(searchTerm, "user"));
   }
@@ -27,16 +27,27 @@ export default function Home() {
       setFilteredBooks(userBooks);
     }
   }, [userBooks])
+
+
   return (
     <div className="container">
       <Navbar />
+      <div className="w-full text-center my-2">
+        <h1 className="text-xl" >Your library</h1>
+      </div>
       <div className="flex flex-row gap-2">
         <Input placeholder="Search for books" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
         <Button onClick={onSearch}>Search</Button>
       </div>
-      <div className="flex flex-col items-center justify-center h-screen py-2">
-        {filteredBooks && <BookGrid type="user" assets={filteredBooks} />}
-      </div>
+      {connected ?
+        <div className="flex flex-col items-center justify-center h-screen py-2">
+          {filteredBooks && <BookGrid type="user" assets={filteredBooks} />}
+        </div>
+        :
+        <div className="flex flex-col items-center justify-center h-screen py-2">
+          <ConnectDialog text="Connect your wallet" />
+        </div>
+      }
     </div>
   );
 }

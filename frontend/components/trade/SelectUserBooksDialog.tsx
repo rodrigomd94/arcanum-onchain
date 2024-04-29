@@ -18,7 +18,7 @@ import { useBookContext } from "@/contexts/BookContext"
 import BookGrid from "../books/BookGrid"
 
 export function SelectUserBooksDialog({onClick}: {onClick?: (e:any) => void}){
-    const { walletName, walletAddress } = useWalletContext();
+    const { walletName, walletAddress, connected } = useWalletContext();
     const { userBooks, findBooks, cart, addBooksToCart, removeBooksFromCart, emptyCart } = useBookContext();
     const [searchTerm, setSearchTerm] = useState<string>("");
     const [filteredBooks, setFilteredBooks] = useState(userBooks);
@@ -45,7 +45,7 @@ export function SelectUserBooksDialog({onClick}: {onClick?: (e:any) => void}){
     return (
         <Dialog >
             <DialogTrigger asChild>
-                <Button onClick={onClick} >
+                <Button disabled={!connected} onClick={onClick} >
                     Take & Leave
                 </Button>
             </DialogTrigger>
