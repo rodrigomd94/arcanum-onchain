@@ -32,7 +32,7 @@ export function Navbar() {
                             <Sidenav />
                         </NavigationMenuItem> */}
                         <NavigationMenuItem>
-                            <Link href="/home" legacyBehavior passHref>
+                            <Link href="/" legacyBehavior passHref>
                                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                                     <Avatar >
                                         <AvatarImage  src={"./arcanum.webp"} />
